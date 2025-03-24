@@ -1,6 +1,12 @@
 import { v2 as cloudinary } from "cloudinary";
 import JSZip from "jszip";
 
+type CloudinaryImage = {
+  public_id: string;
+  secure_url: string;
+  created_at: string;
+};
+
 if (!process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
   throw new Error("Cloudinary credentials are missing");
 }
@@ -23,7 +29,7 @@ export async function POST(request: Request) {
 
     // Télécharger toutes les images et les ajouter au ZIP
     await Promise.all(
-      result.resources.map(async (image: any) => {
+      result.resources.map(async (image: CloudinaryImage) => {
         // Ajouter l'extension .jpg au nom du fichier
         const baseName = image.public_id.split("/").pop() || "photo";
         const fileName = `${baseName}.jpg`;
