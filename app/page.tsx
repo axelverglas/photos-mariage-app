@@ -221,8 +221,8 @@ function PhotoGallery({ showWelcome }: { showWelcome: boolean }) {
         </div>
       )}
 
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex gap-4 items-center">
+      <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:justify-between sm:items-center">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <CldUploadButton
             onUpload={handleUpload}
             onOpen={handleUploadStart}
@@ -230,7 +230,7 @@ function PhotoGallery({ showWelcome }: { showWelcome: boolean }) {
             options={{
               tags: ["mariage"],
             }}
-            className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 disabled:opacity-50"
+            className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 disabled:opacity-50 w-full sm:w-auto"
           >
             Ajouter des photos
           </CldUploadButton>
@@ -238,7 +238,7 @@ function PhotoGallery({ showWelcome }: { showWelcome: boolean }) {
           <Button
             variant="outline"
             onClick={handleManualRefresh}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto"
             disabled={isUploading || isLoading}
           >
             <RefreshCw className="w-4 h-4" />
@@ -246,14 +246,18 @@ function PhotoGallery({ showWelcome }: { showWelcome: boolean }) {
           </Button>
         </div>
 
-        <div className="flex gap-4">
-          <Button variant="outline" onClick={handleSelectAll}>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button
+            variant="outline"
+            onClick={handleSelectAll}
+            className="w-full sm:w-auto"
+          >
             {selectAll ? "Désélectionner tout" : "Sélectionner tout"}
           </Button>
           {selectedImages.size > 0 && (
             <Button
               onClick={downloadSelectedImages}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 w-full sm:w-auto"
               variant="default"
             >
               <Download className="w-4 h-4" />
