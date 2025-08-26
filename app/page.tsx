@@ -44,8 +44,6 @@ const formSchema = z.object({
 function PhotoGallery({ showWelcome }: { showWelcome: boolean }) {
   const { data: session, status } = useSession();
   const queryClient = useQueryClient();
-  const searchParams = useSearchParams();
-  const code = searchParams.get("code");
   const [cursor, setCursor] = useState<string | null>(null);
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
   const [selectAll, setSelectAll] = useState(false);
@@ -65,16 +63,6 @@ function PhotoGallery({ showWelcome }: { showWelcome: boolean }) {
     },
     enabled: !!session,
   });
-
-  useEffect(() => {
-    if (code) {
-      console.log("🔑 Connexion automatique via QR code");
-      signIn("credentials", {
-        code: code,
-        redirect: false,
-      });
-    }
-  }, [code]);
 
   // Polling de backup quand un upload est en cours
   useEffect(() => {
@@ -391,7 +379,7 @@ function LoginForm() {
   );
 }
 
-export default function Home() {
+function AuthHandler() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
@@ -431,6 +419,28 @@ export default function Home() {
     }
   }, [code, session, status]);
 
+  if (session) {
+    return <PhotoGallery showWelcome={showWelcome} />;
+  }
+
+  if (isAutoAuthenticating) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-lg font-medium">
+            Connexion automatique en cours...
+          </p>
+          <p className="text-sm text-gray-600">Authentification via QR code</p>
+        </div>
+      </div>
+    );
+  }
+
+  return <LoginForm />;
+}
+
+export default function Home() {
   return (
     <main className="min-h-screen p-8">
       <div className="max-w-7xl mx-auto">
@@ -438,23 +448,7 @@ export default function Home() {
           <h1 className="text-3xl font-bold">Photos du Mariage</h1>
         </div>
         <Suspense fallback={<div>Chargement...</div>}>
-          {session ? (
-            <PhotoGallery showWelcome={showWelcome} />
-          ) : isAutoAuthenticating ? (
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-                <p className="text-lg font-medium">
-                  Connexion automatique en cours...
-                </p>
-                <p className="text-sm text-gray-600">
-                  Authentification via QR code
-                </p>
-              </div>
-            </div>
-          ) : (
-            <LoginForm />
-          )}
+          <AuthHandler />
         </Suspense>
       </div>
     </main>
