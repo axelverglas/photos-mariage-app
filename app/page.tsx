@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { RefreshCw } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
 
 type CloudinaryImage = {
   public_id: string;
@@ -479,12 +480,47 @@ export default function Home() {
               Photos du Mariage
             </h1>
             <h2 className="text-2xl md:text-3xl font-script text-gray-700 mb-4">
-              Emilie & Seb
+              Emilie & Sébastien
             </h2>
             <p className="text-lg text-gray-600 font-medium">
-              Partagez vos plus beaux souvenirs
+              Aujourd&apos;hui, c&apos;est le grand jour : nous nous disons
+              &quot;oui&quot; ! De l&apos;émotion, de l&apos;amour… et sûrement
+              déjà quelques pas de danse approximatifs nous attendent. Nous
+              avons créé cet espace pour vivre cette journée avec vous encore
+              plus intensément : 📸 Ici, vous pouvez déposer vos photos,
+              immortaliser les instants drôles, tendres ou complètement
+              improvisés. ✨ Ensemble, nous allons créer un album rempli de
+              sourires, de souvenirs et (on l&apos;espère) de jolies poses… même
+              si on vous connaît, il y aura aussi des grimaces ! Merci
+              d&apos;être à nos côtés pour écrire ce chapitre unique de notre
+              histoire. Alors… prêts à dégainer vos appareils et à partager
+              cette journée inoubliable ? Avec tout notre amour, Emilie et
+              Sébastien 💕
             </p>
-            <div className="mt-6 w-24 h-1 bg-gradient-to-r from-pink-400 to-rose-400 mx-auto rounded-full"></div>
+            <div className="mt-8 w-24 h-1 bg-gradient-to-r from-pink-400 to-rose-400 mx-auto rounded-full"></div>
+
+            {/* Photo de présentation du couple */}
+            <div className="mt-12 flex justify-center">
+              <div className="relative group max-w-md">
+                <div className="absolute -inset-1 bg-gradient-to-r from-pink-400 via-rose-400 to-red-400 rounded-3xl blur opacity-60 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative bg-white rounded-3xl p-2 shadow-2xl">
+                  <Image
+                    src="/photo.jpeg"
+                    alt="Émilie et Sébastien - Notre jour J"
+                    width={400}
+                    height={300}
+                    className="w-full h-auto rounded-2xl object-cover shadow-lg"
+                    priority
+                  />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4 text-center">
+                    <p className="text-white font-semibold text-lg drop-shadow-lg">
+                      Notre jour J ✨
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <Suspense
